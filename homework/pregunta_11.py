@@ -5,7 +5,7 @@ datos requeridos se encuentran en los archivos `tbl0.tsv`, `tbl1.tsv` y
 librerias de pandas para resolver las preguntas.
 """
 
-
+import pandas as pd
 def pregunta_11():
     """
     Construya una tabla que contenga `c0` y una lista separada por ',' de
@@ -22,3 +22,14 @@ def pregunta_11():
     38   38      d,e
     39   39    a,d,f
     """
+    df = pd.read_csv("files/input/tbl1.tsv", sep="\t")
+    
+    # Agrupar por 'c0' y ordenar los valores de 'c4', luego unirlos con una coma
+    grupo = df.groupby('c0')['c4'].apply(lambda x: ','.join(sorted(x))).reset_index()
+    
+    # Restablecer el índice numérico secuencial
+    grupo.reset_index(drop=True, inplace=True)
+    
+    return grupo
+
+print(pregunta_11())

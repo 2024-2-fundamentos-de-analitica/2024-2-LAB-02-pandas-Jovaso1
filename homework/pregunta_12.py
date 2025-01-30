@@ -5,7 +5,7 @@ datos requeridos se encuentran en los archivos `tbl0.tsv`, `tbl1.tsv` y
 librerias de pandas para resolver las preguntas.
 """
 
-
+import pandas as pd
 def pregunta_12():
     """
     Construya una tabla que contenga `c0` y una lista separada por ','
@@ -22,3 +22,15 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
+    # Leer el archivo .tsv
+    df = pd.read_csv("files/input/tbl2.tsv", sep="\t")
+    
+    # Crear una nueva columna concatenando c5a y c5b por ':'
+    df['c5'] = df['c5a'].astype(str) + ':' + df['c5b'].astype(str)
+
+    # Agrupar por c0, ordenar dentro de cada grupo, y combinar las filas en una lista separada por comas
+    resultado = df.sort_values(by=['c0', 'c5a']).groupby('c0')['c5'].apply(lambda x: ','.join(x)).reset_index()
+
+    return resultado
+
+print(pregunta_12())
